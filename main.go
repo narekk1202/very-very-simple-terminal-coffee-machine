@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/inancgumus/screen"
 )
@@ -21,6 +22,7 @@ var coffeeOptions = []coffes{
 
 func main() {
 	var selectedCoffee int
+	var sum int
 	var coffee coffes
 	fmt.Println("Choose your coffee!")
 	fmt.Println("========================")
@@ -33,8 +35,18 @@ func main() {
 	coffee = coffeeOptions[selectedCoffee-1]
 
 	if len(coffee.name) > 0 {
-		fmt.Println("Your order is", coffee.name)
-		askForSugar()
+		fmt.Print("Enter the sum: ")
+		fmt.Scan(&sum)
+		if sum == coffee.price {
+			fmt.Println("Your order is", coffee.name)
+			askForSugar()
+		} else if sum > coffee.price {
+			fmt.Printf("Here is your change $%d\n", sum-coffee.price)
+			fmt.Println("Your order is", coffee.name)
+			askForSugar()
+		} else {
+			fmt.Println("Not enough!")
+		}
 	} else {
 		fmt.Println("Invalid choice")
 	}
@@ -64,8 +76,10 @@ func askForSugar() {
 	}
 
 	if spoons != 0 {
+		fmt.Println("Wait for your coffee!")
+		time.Sleep(time.Duration(spoons) * time.Second)
 		fmt.Println("Your coffee is ready!")
 	} else {
-		fmt.Println("Your coffee is ready!")
+		fmt.Println("Here is your coffee, enjoy!")
 	}
 }
